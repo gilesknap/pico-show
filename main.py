@@ -17,6 +17,8 @@ def main():
 
     sys.stdout.write("awaiting data ...\r")
 
+    line = 0
+
     while True:
         # Wait for input on stdin, waiting for 1000 ms
         poll_results = poll_obj.poll(1000)
@@ -27,8 +29,10 @@ def main():
 
             # Write the data to the display
             if len(data) > 0:
-                display.clear()
-                display.text(data, 0, 0, 0xFFFF)
+                if line == 0:
+                    display.clear()
+                display.text(data, 0, line * 10, 0xFFFF)
+                line = (line + 1) % 7  # wrap around after 7 lines
                 display.show()
 
 
